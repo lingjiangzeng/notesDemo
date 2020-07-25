@@ -155,7 +155,7 @@ export default {
       sessionStorage.getItem('notesList') ? this.NotesList = JSON.parse(sessionStorage.getItem('notesList')) : sessionStorage.setItem('notesList', '[]');
     },
     /*
-    监听搜索输入
+    监听搜索框ss输入
     @params String value
     */
     searchnotesfun: function(value) {
@@ -247,7 +247,7 @@ export default {
       }
     },
     verifySaveContent: function() {
-      // 为什么判断null? 因为element ui 日期点击清除后绑定值为null
+      // 为什么判断null? 因为element-UI 日期点击清除后绑定值为null
       if (this.notesTitleValue === '' || this.notesTitleValue === null) {
         this.$notify.error({ title: '错误', message: '请添加标题！' });
       } else if (this.notesTimeValue === '' || this.notesTimeValue === null) {
@@ -258,14 +258,15 @@ export default {
     },
     // 保存编辑的内容
     saveContent: function() {
-      if (this.openNotesID === '') {
+      // 使用this.openNotesID 判断保存的笔记是新添加的还是重新编辑
+      if (this.openNotesID === '') { // 保存新添加笔记
         let obj = {};
         obj.id = this.createId();
         obj.title = this.notesTitleValue;
         obj.time = this.notesTimeValue;
         this.saveContentToSessionStorage(obj);
         sessionStorage.setItem(obj.id, this.content);
-      } else if (this.openNotesID !== '' && this.changContent) {
+      } else if (this.openNotesID !== '' && this.changContent) { // 保存重新编辑的笔记
         // 更新编辑的文档
         let notesListarr = JSON.parse(sessionStorage.getItem('notesList'));
         notesListarr.forEach((value, index) => {
@@ -290,7 +291,7 @@ export default {
       this.notesTitleValue = '';// 清除标题
       this.notesTimeValue = '';// 清除日期
       this.content = '';// 清除文本域的内容
-      this.openNotesID = '';// 清除选中 的openNotesIDss
+      this.openNotesID = '';// 清除选中 的openNotesID
     },
     /*
     存储新的笔记数据到sesstionStorage 缓存
@@ -329,7 +330,7 @@ export default {
       let Millisecondss = D.getMilliseconds();
       return year + '-' + month + '-' + day + '-' + hours + '-' + miunte + '-' + seconds + '-' + Millisecondss;
     },
-    /* 实现查询
+    /* 实现搜索回显示
     @params String  value
     */
     getSearchData: function(value) {
